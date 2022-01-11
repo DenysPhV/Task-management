@@ -1,19 +1,18 @@
 import { Component } from 'react';
 import shortid from 'shortid';
 // import initialTodos from './todos.json';
-// import paintings from './paintings.json';
 
 import Container from 'components/Container';
-// import PaintingList from './components/PaintingList';
-// import Counter from 'components/Counter';
+import AppBar from 'components/AppBar';
 // import Dropdown from 'components/Dropdown/Dropdown';
-
 import TodoList from 'components/TodoList';
 import TodoFilter from 'components/TodoFilter';
 import TodoEditor from './components/TodoEditor';
 import Modal from 'components/Modal';
 import IconButton from 'components/IconButton';
 import { ReactComponent as AddIcon } from './icons/add.svg';
+
+import s from './App.module.scss';
 
 class App extends Component {
   state = {
@@ -37,18 +36,11 @@ class App extends Component {
     const nextTodos = this.state.todos;
     const prevTodos = prevState.todos;
 
-    if (/*this.state.todos*/ nextTodos !== /*prevState.todos*/ prevTodos) {
-      localStorage.setItem(
-        'todos',
-        JSON.stringify(/*this.state.todos*/ nextTodos),
-      );
+    if (nextTodos !== prevTodos) {
+      localStorage.setItem('todos', JSON.stringify(nextTodos));
     }
     // have toggle modal
-    if (
-      /*this.state.todos*/ nextTodos.length >
-        /*prevState.todos*/ prevTodos.length &&
-      /*prevState.todos*/ prevTodos.length !== 0
-    ) {
+    if (nextTodos.length > prevTodos.length && prevTodos.length !== 0) {
       this.toggleModal();
     }
   }
@@ -61,8 +53,6 @@ class App extends Component {
     };
 
     this.setState(({ todos }) => ({ todos: [todo, ...todos] }));
-    // or have toggle modal
-    // this.toggleModal();
   };
 
   // delete card todo`s
@@ -74,19 +64,6 @@ class App extends Component {
 
   // тоглим чекбоксы типа выполнили на каротчках
   toggleCompleted = (todoID) => {
-    // this.setState((prevState) => ({
-    //   todos: prevState.todos.map((todo) => {
-    //     if (todo.id === todoID) {
-    //       return {
-    //         ...todo,
-    //         completed: !todo.completed,
-    //       };
-    //     }
-    //     return todo;
-    //   }),
-    // }));
-
-    // ternarniar
     this.setState(({ todos }) => ({
       todos: todos.map((todo) =>
         todo.id === todoID ? { ...todo, completed: !todo.completed } : todo,
@@ -128,6 +105,14 @@ class App extends Component {
     return (
       <>
         <Container>
+          <section className={s.appBar}>
+            <TodoFilter value={filter} onChange={this.changeFilter} />
+            <AppBar
+              totalTodoCount={totalTodoCount}
+              completedTodosCount={completedTodosCount}
+            />
+          </section>
+
           <IconButton onClick={this.toggleModal} aria-label="add todo item">
             <AddIcon width="30" height="30" fill="#ffffff" />
           </IconButton>
@@ -142,15 +127,12 @@ class App extends Component {
           )}
           {/*Работа с колекциями*/}
           {/* <Dropdown /> */}
-          {/* <Counter /> */}
-          {/* <PaintingList items={paintings} /> */}
 
+          {/* 
           <div>
             <p>Общее кол-во:{totalTodoCount}</p>
             <p>Кол-во выполненных:{completedTodosCount}</p>
-          </div>
-
-          <TodoFilter value={filter} onChange={this.changeFilter} />
+          </div> */}
 
           <TodoList
             todos={visibleTodos}
