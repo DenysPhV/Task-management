@@ -1,0 +1,16 @@
+.container {
+  border: 1px solid tomato;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 250px;
+  padding: 20px;
+
+  background-color: #d6e1e2;
+}
+
+/* .countValue {
+  margin-right: 10px;
+} */
