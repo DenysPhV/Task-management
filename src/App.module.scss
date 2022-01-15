@@ -1,8 +1,91 @@
 .appBar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   padding: 5px 20px;
   background-color: #74cffa;
+}
+
+.containerSection {
+  display: flex;
+}
+
+.tasksList {
+  display: flex;
+  justify-content: space-around;
+
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+
+  background-color: #bbbab8;
+  // border: 1px solid tomato;
+}
+
+.tasksItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  & h2 {
+    font-size: large;
+    padding: 10px 5px;
+  }
+}
+
+.studentCard {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  grid-gap: 24px;
+
+  padding: 10px;
+
+  max-height: 386px;
+  overflow-y: auto;
+  background-color: #ffffff;
+
+  & h3 {
+    padding: 10px 5px;
+  }
+}
+
+.sideBar {
+  position: relative;
+
+  display: flex;
+
+  height: 100vh;
+  padding: 10px;
+
+  background-color: #d1d1d1;
+  box-shadow: -5px -5px 5px -5px rgba(34, 60, 80, 0.6);
+
+  border: 1px solid tomato;
+}
+
+.sideBarBtn {
+  position: absolute;
+  top: 0;
+  left: -35px;
+  z-index: 5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
+  cursor: pointer;
+  padding: 2px;
+  background-color: #d1d1d1;
+  border: transparent;
+}
+
+.reversed svg {
+  transform: rotate(180deg);
 }

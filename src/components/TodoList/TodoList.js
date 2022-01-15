@@ -15,7 +15,6 @@ const TodoList = ({ todos, onDeleteTodo, onToggleCompleted }) => (
       >
         <Todo
           text={text}
-          completed={completed}
           onToggleCompleted={() => onToggleCompleted(id)}
           onDeleteTodo={() => onDeleteTodo(id)}
         />

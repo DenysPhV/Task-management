@@ -1,16 +1,20 @@
 import { Component } from 'react';
 import shortid from 'shortid';
+
 // import initialTodos from './todos.json';
 
 import Container from 'components/Container';
 import AppBar from 'components/AppBar';
+import SideBarNav from 'components/SideBarNav';
 // import Dropdown from 'components/Dropdown/Dropdown';
 import TodoList from 'components/TodoList';
 import TodoFilter from 'components/TodoFilter';
-import TodoEditor from './components/TodoEditor';
+import TodoEditor from 'components/TodoEditor';
 import Modal from 'components/Modal';
 import IconButton from 'components/IconButton';
+
 import { ReactComponent as AddIcon } from './icons/add.svg';
+import { ImCircleLeft } from 'react-icons/im';
 
 import s from './App.module.scss';
 
@@ -19,6 +23,7 @@ class App extends Component {
     todos: [],
     filter: '',
     showModal: false,
+    reversed: false,
   };
 
   componentDidMount() {
@@ -95,8 +100,12 @@ class App extends Component {
     }));
   };
 
+  toggleSideBar = () => {
+    this.setState(({ reversed }) => ({ reversed: !reversed }));
+  };
+
   render() {
-    const { todos, filter, showModal } = this.state;
+    const { todos, filter, showModal, reversed } = this.state;
     //вычесляемые значения возми то что у тебя есть и вычесли не засерая стейт
     const totalTodoCount = todos.length;
     const completedTodosCount = this.calculateCompletedTodos();
@@ -113,32 +122,79 @@ class App extends Component {
             />
           </section>
 
-          <IconButton onClick={this.toggleModal} aria-label="add todo item">
-            <AddIcon width="30" height="30" fill="#ffffff" />
-          </IconButton>
+          <section className={s.containerSection}>
+            <ul className={s.tasksList}>
+              <li className={s.tasksItem}>
+                <h2>In progress {totalTodoCount}</h2>
+                <div className={s.studentCard}>
+                  <h3>Name student</h3>
+                  <TodoList
+                    todos={visibleTodos}
+                    onDeleteTodo={this.deleteTodo}
+                    onToggleCompleted={this.toggleCompleted}
+                  />
+                  <IconButton
+                    onClick={this.toggleModal}
+                    aria-label="add todo item"
+                  >
+                    <AddIcon width="30" height="30" fill="#ffffff" />
+                  </IconButton>
+                </div>
+              </li>
+              <li className={s.tasksItem}>
+                <h2>Submitted {totalTodoCount}</h2>
+                <div className={s.studentCard}>
+                  <h3>Name student</h3>
+                  <TodoList
+                    todos={visibleTodos}
+                    onDeleteTodo={this.deleteTodo}
+                    onToggleCompleted={this.toggleCompleted}
+                  />
+                  <IconButton
+                    onClick={this.toggleModal}
+                    aria-label="add todo item"
+                  >
+                    <AddIcon width="30" height="30" fill="#ffffff" />
+                  </IconButton>
+                </div>
+              </li>
+              <li className={s.tasksItem}>
+                <h2>ready to submit to peer review {totalTodoCount}</h2>
+                <div className={s.studentCard}>
+                  <h3>Name student</h3>
+                  <TodoList
+                    todos={visibleTodos}
+                    onDeleteTodo={this.deleteTodo}
+                    onToggleCompleted={this.toggleCompleted}
+                  />
+                  <IconButton
+                    onClick={this.toggleModal}
+                    aria-label="add todo item"
+                  >
+                    <AddIcon width="30" height="30" fill="#ffffff" />
+                  </IconButton>
+                </div>
+              </li>
+            </ul>
+            <div className={s.sideBar}>
+              <button
+                type="button"
+                onClick={this.toggleSideBar}
+                className={`${s.sideBarBtn} ${reversed ? s.reversed : ''}`}
+              >
+                <ImCircleLeft size="40" />
+              </button>
+              {reversed && (
+                <SideBarNav todos={visibleTodos} reversed={reversed} />
+              )}
+            </div>
+          </section>
 
-          {/* <button type="button" onClick={this.toggleModal}>
-            on modal
-          </button> */}
           {showModal && (
             <Modal onClose={this.toggleModal}>
               <TodoEditor onSubmit={this.addTodo} />
             </Modal>
           )}
-          {/*Работа с колекциями*/}
-          {/* <Dropdown /> */}
-
-          {/* 
-          <div>
-            <p>Общее кол-во:{totalTodoCount}</p>
-            <p>Кол-во выполненных:{completedTodosCount}</p>
-          </div> */}
-
-          <TodoList
-            todos={visibleTodos}
-            onDeleteTodo={this.deleteTodo}
-            onToggleCompleted={this.toggleCompleted}
-          />
         </Container>
       </>
     );
